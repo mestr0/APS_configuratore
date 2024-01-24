@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calcolatore di tempo di produzione - APS</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+        h1 {
+            color: #007BFF;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        select, input {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #addMachine {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #6c757d;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            float: right;
+        }
+        #calendar {
+            width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+<body>
+    <div class="container">
+        <h1>APS</h1>
+        <h2>Calcolatore di tempo di produzione</h2>
+        <div id="machine1">
+            <h3>Macchina 1</h3>
+            <label for="machinery1">Seleziona macchinario:</label>
+            <select id="machinery1">
+                <option value="macchina1">Macchina 1</option>
+                <option value="macchina2">Macchina 2</option>
+            </select>
+            <br>
+            <label for="length1">Inserisci la lunghezza della bobbina materiale (in metri):</label>
+            <input type="number" id="length1">
+            <br>
+            <label for="shift1">Seleziona il turno di lavoro:</label>
+            <select id="shift1">
+                <option value="giornaliero">Giornaliero (dalle 8 alle 18)</option>
+                <option value="doppio">Doppio turno (dalle 6 alle 22)</option>
+            </select>
+            <br>
+            <button class="sparkle" onclick="calculate(1)">Calcola tempo di produzione</button>
+            <p id="result1"></p>
+            <p id="calculation1"></p>
+        </div>
+        <button id="addMachine" onclick="toggleMachine2()">Aggiungi il timer a un'altra macchina</button>
+        <div id="machine2" style="display: none;">
+            <h3>Macchina 2</h3>
+            <label for="machinery2">Seleziona macchinario:</label>
+            <select id="machinery2">
+                <option value="macchina1">Macchina 1</option>
+                <option value="macchina2">Macchina 2</option>
+            </select>
+            <br>
+            <label for="length2">Inserisci la lunghezza della bobbina materiale (in metri):</label>
+            <input type="number" id="length2">
+            <br>
+            <label for="shift2">Seleziona il turno di lavoro:</label>
+            <select id="shift2">
+                <option value="giornaliero">Giornaliero (dalle 8 alle 18)</option>
+                <option value="doppio">Doppio turno (dalle 6 alle 22)</option>
+            </select>
+            <br>
+            <button onclick="calculate(2)">Calcola tempo di produzione</button>
+            <p id="result2"></p>
+            <p id="calculation2"></p>
+        </div>
+    </div>
+
+
+        <div id="timer1" style="font-size: 2em; text-align: center; margin-top: 20px;"></div>
+        <div id="timer2" style="font-size: 2em; text-align: center; margin-top: 20px;"></div>
+
+    
+
+    <script src="script.js"></script>
+    <script>
+            // Funzione per aggiornare il timer
+            function updateTimer(endDate, timerId) {
+                var now = new Date().getTime();
+                var distance = new Date(endDate).getTime() - now;
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById(timerId).innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById(timerId).innerHTML = "TEMPO SCADUTO";
+                }
+            }
+
+            // Aggiungi un evento click al tuo pulsante
+            document.querySelector('.sparkle').addEventListener('click', function() {
+                // Ottieni la data e l'ora di fine dalle variabili result1 e result2
+                var endDate1 = document.getElementById('result1').textContent;
+                var endDate2 = document.getElementById('result2').textContent;
+
+                // Aggiorna il timer ogni secondo
+                var timer1 = setInterval(function() { updateTimer(endDate1, 'timer1'); }, 1000);
+                var timer2 = setInterval(function() { updateTimer(endDate2, 'timer2'); }, 1000);
+            });
+
+            
+    </script>
+</body>
+</html>
