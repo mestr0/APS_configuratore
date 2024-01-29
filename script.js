@@ -51,6 +51,16 @@ function calculate(machineNumber) {
     document.getElementById('calculation' + machineNumber).textContent = 'Calcolo: ' + calculation;
     }   
 
+    function mostraDataFineAggiornamento() {
+        var dataFineAggiornamento = calcolaDataFineAggiornamento();
+        var risultatoDiv = document.getElementById('result');
+        risultatoDiv.textContent = 'La macchina' + machineNumber + ' finirà il giorno ' + dataFineAggiornamento.toLocaleDateString() + ' alle ore ' + dataFineAggiornamento.toLocaleTimeString();
+    }
+
+
+
+
+
     function toggleMachine2() {
         var machine2 = document.getElementById('machine2');
         var addMachineButton = document.getElementById('addMachine');
