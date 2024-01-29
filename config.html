@@ -11,16 +11,38 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-image: url("http://www.apsprofili.com/templates/yootheme/cache/aps_banner_1-cd8e215b.jpg");
         }
         .container {
             text-align: center;
-            background-color: #fff;
+            background-color: #ffffff00;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
             width: 80%;
             max-width: 800px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            padding: 10px;
+        }
+        .item1, .item2 {
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .item1 {
+            border-color: #007BFF;
+            background-color: #E5E5E5;
+            color: #333;
+        }
+        .item2 {
+            border-color: #28A745;
+            background-color: #E5E5E5;
+            color: #333;
+            margin-top: -20px;
         }
         h1 {
             color: #007BFF;
@@ -67,6 +89,39 @@
             width: 500px;
             margin: 0 auto;
         }
+        #formAggiungi {
+            margin-bottom: 20px;
+        }
+        #formAggiungi input, #formAggiungi select, #formAggiungi textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        #formAggiungi button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #formAggiungi button:hover {
+            background-color: #45a049;
+        }
+        #agenda {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #agenda th, #agenda td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        #agenda th {
+            background-color: #0bcaff;
+            color: white;
+        }
     </style>
 </head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" />
@@ -76,55 +131,61 @@
     <script src="https://ajax.googleapis.com/ajax>/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
     <div class="container">
-        <h1>APS</h1>
-        <h2>Calcolatore di tempo di produzione</h2>
-        <div id="machine1">
-            <h3>Macchina 1</h3>
-            <label for="machinery1">Seleziona macchinario:</label>
-            <select id="machinery1">
-                <option value="macchina1">Macchina 1</option>
-                <option value="macchina2">Macchina 2</option>
-            </select>
-            <br>
-            <label for="length1">Inserisci la lunghezza della bobbina materiale (in metri):</label>
-            <input type="number" id="length1">
-            <br>
-            <label for="shift1">Seleziona il turno di lavoro:</label>
-            <select id="shift1">
-                <option value="giornaliero">Giornaliero (dalle 8 alle 18)</option>
-                <option value="doppio">Doppio turno (dalle 6 alle 22)</option>
-            </select>
-            <br>
-            <button class="sparkle" onclick="calculate(1)">Calcola tempo di produzione</button>
-            <p id="result1"></p>
-            <p id="calculation1"></p>
-        </div>
-        <button id="addMachine" onclick="toggleMachine2()">Aggiungi il timer a un'altra macchina</button>
-        <div id="machine2" style="display: none;">
-            <h3>Macchina 2</h3>
-            <label for="machinery2">Seleziona macchinario:</label>
-            <select id="machinery2">
-                <option value="macchina1">Macchina 1</option>
-                <option value="macchina2">Macchina 2</option>
-            </select>
-            <br>
-            <label for="length2">Inserisci la lunghezza della bobbina materiale (in metri):</label>
-            <input type="number" id="length2">
-            <br>
-            <label for="shift2">Seleziona il turno di lavoro:</label>
-            <select id="shift2">
-                <option value="giornaliero">Giornaliero (dalle 8 alle 18)</option>
-                <option value="doppio">Doppio turno (dalle 6 alle 22)</option>
-            </select>
-            <br>
-            <button onclick="calculate(2)">Calcola tempo di produzione</button>
-            <p id="result2"></p>
-            <p id="calculation2"></p>
+        <div class="grid-container">
+            <div class="item1">
+                <h1>APS</h1>
+                <h2>Calcolatore di tempo di produzione</h2>
+                <div id="machine1">
+                    <h3>Macchina 1</h3>
+                    <label for="machinery1">Seleziona macchinario:</label>
+                    <select id="machinery1">
+                        <option value="macchina1">Macchina 1</option>
+                        <option value="macchina2">Macchina 2</option>
+                    </select>
+                    <br>
+                    <label for="length1">Inserisci la lunghezza della bobbina materiale (in metri):</label>
+                    <input type="number" id="length1">
+                    <br>
+                    <label for="shift1">Seleziona il turno di lavoro:</label>
+                    <select id="shift1">
+                        <option value="giornaliero">Giornaliero (dalle 8 alle 18)</option>
+                        <option value="doppio">Doppio turno (dalle 6 alle 22)</option>
+                    </select>
+                    <br>
+                    <button class="sparkle" onclick="calculate(1)">Calcola tempo di produzione</button>
+                    <p id="result1"></p>
+                    <p id="calculation1"></p>
+                </div>
+                <button id="addMachine" onclick="toggleMachine2()">Aggiungi il timer a un'altra macchina</button>
+                <div id="machine2" style="display: none;">
+                    <h3>Macchina 2</h3>
+                    <label for="machinery2">Seleziona macchinario:</label>
+                    <select id="machinery2">
+                        <option value="macchina1">Macchina 1</option>
+                        <option value="macchina2">Macchina 2</option>
+                    </select>
+                    <br>
+                    <label for="length2">Inserisci la lunghezza della bobbina materiale (in metri):</label>
+                    <input type="number" id="length2">
+                    <br>
+                    <label for="shift2">Seleziona il turno di lavoro:</label>
+                    <select id="shift2">
+                        <option value="giornaliero">Giornaliero (dalle 8 alle 18)</option>
+                        <option value="doppio">Doppio turno (dalle 6 alle 22)</option>
+                    </select>
+                    <br>
+                    <button onclick="calculate(2)">Calcola tempo di produzione</button>
+                    <p id="result2"></p>
+                    <p id="calculation2"></p>
+                </div>
+            </div>
         </div>
     </div>
-        <div>
-            <h1>Agenda</h1>
-            <form id="formAggiungi">
+    <div class="container">
+        <div class="grid-container">
+            <div class="item1">
+                <h1>Agenda</h1>
+                <form id="formAggiungi">
                 <label for="data">Data (formato: GG-MM-AAAA):</label>
                 <input type="date" id="data" name="data"><br>
                 <label for="ora">Ora (formato: HH:MM):</label>
@@ -134,18 +195,61 @@
                     <option value="macchina1">Macchina1</option>
                     <option value="macchina2">Macchina2</option>
                 </select><br>
-                <button type="submit" onclick="caricaEventi()">Aggiungi</button>
-            </form>
-            <table id="agenda">
-                <tr>
-                    <th>Data</th>
-                    <th>Ora</th>
-                    <th>Timer</th>
-                </tr>
-            </table>
-        </div>
+                <label for="nomeLavoro">Nome del Lavoro:</label>
+                <textarea id="nomeLavoro" name="nomeLavoro" rows="2" cols="25" maxlength="25"></textarea><br>
+
+                    <button type="submit" onclick="caricaEventi()">Aggiungi</button>   
+                </form>
+                <table id="agenda">
+                    <tr>
+                        <th>Data</th>
+                        <th>Ora</th>
+                        <th>Timer</th>
+                    </tr>
+                </table>
+            </div>
+        </div>    
+    </div>
     <script src="script.js"></script>
     <script>  
+        function aggiungiTesto() {
+        // Prevenire il comportamento di invio del modulo predefinito
+        event.preventDefault();
+
+        // Ottenere i valori dai campi del modulo
+        var data = document.getElementById('data').value;
+        var ora = document.getElementById('ora').value;
+        var macchina = document.getElementById('macchina').value;
+        var nomeLavoro = document.getElementById('nomeLavoro').value;
+
+        // Creare una nuova riga nella tabella
+        var table = document.getElementById('agenda');
+        var row = table.insertRow(-1);
+
+        // Inserire i valori nei nuovi campi della tabella
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        cell1.innerHTML = data;
+        cell2.innerHTML = ora;
+        cell3.innerHTML = 'Timer'; // Aggiungi qui la logica del timer
+        cell4.innerHTML = nomeLavoro;
+
+        // Ripristinare i valori del modulo
+        document.getElementById('data').value = '';
+        document.getElementById('ora').value = '';
+        document.getElementById('macchina').value = '';
+        document.getElementById('nomeLavoro').value = '';
+    }
+
+
+
+
+
+
+
+
 
         function aggiungiEvento(data, ora) {
             var agenda = document.getElementById('agenda');
