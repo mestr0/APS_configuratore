@@ -11,38 +11,28 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: url("http://www.apsprofili.com/templates/yootheme/cache/aps_banner_1-cd8e215b.jpg");
+            background-image: url("//http://www.apsprofili.com/templates/yootheme/cache/aps_banner_1-cd8e215b.jpg");
         }
         .container {
-            text-align: center;
-            background-color: #ffffff00;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            width: 80%;
-            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
         }
         .grid-container {
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 10px;
-            padding: 10px;
+            width: 95%;
         }
         .item1, .item2 {
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
             padding: 10px;
             background-color: #f9f9f9;
+            width: 100%;
         }
         .item1 {
             border-color: #007BFF;
             background-color: #E5E5E5;
-            color: #333;
         }
         .item2 {
             border-color: #28A745;
             background-color: #E5E5E5;
-            color: #333;
-            margin-top: -20px;
         }
         h1 {
             color: #007BFF;
@@ -122,6 +112,97 @@
             background-color: #0bcaff;
             color: white;
         }
+        .btn {
+            border: none;
+            width: 15em;
+            height: 5em;
+            border-radius: 3em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            background: #1C1A1C;
+            cursor: crosshair;
+            transition: all 450ms ease-in-out ;
+        }
+        .sparkle {
+            fill: #AAAAAA;
+            transition: all 800ms ease;
+        }
+        .text {
+            font-weight: 600;
+            color: #AAAAAA;
+            font-size: medium;
+        }
+        .btn:hover {
+            background: linear-gradient(0deg, rgb(239, 243, 124), rgb(234, 180, 63));
+            box-shadow: inset 0px 1px 0px 0px rgba(255,255,255,0.4),
+            inset 0px -4px 0px 0px rgba(0,0,0,0.2),
+            0px 0px 0px 4px rgba(255,255,255,0.2),
+            0px 0px 180px 0px #9917FF;
+            transform: translateY(-2px);
+        }
+        .btn:hover .text {
+            color: rgb(0, 0, 0);
+        }
+        .btn:hover .sparkle {
+            fill: white;
+            transform: scale(1.2);
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #fff;
+            border: 2px solid #6c757d;
+            border-radius: 10px;
+            background-color: #6c757d;
+            appearance: none;
+            -webkit-appearance: url('arrow.png') no-repeat right center;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            outline:none;
+            border-color: #28A745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+            transform: scale(1.02);
+        }
+        select option {
+            padding: 10px;
+            background-color: #f8f8f8;
+            color: #333;
+            transition: all 0.2 ease;
+        }
+        select option:checked {
+            background: #28A745;
+            color: #fff;
+        }
+        select option:hover {
+            background: #28A745;
+            color: #fff;
+            transform: scale(1.1);
+        }
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 10px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #fff;
+            border: 2px solid #6c757d;
+            border-radius: 10px;
+            background-color: #6c757d;
+            resize: vertical;
+            transition: all 0.3s ease ;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #28A745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+            transform: scale(1.02);
+        }
     </style>
 </head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" />
@@ -181,9 +262,16 @@
             </div>
         </div>
     </div>
+
+
+    <button class="btn" onclick="resetPage()">
+            <span class="text">Reset</span>
+    </button>
+
+
     <div class="container">
         <div class="grid-container">
-            <div class="item1">
+            <div class="item2">
                 <h1>Agenda</h1>
                 <form id="formAggiungi">
                 <label for="data">Data (formato: GG-MM-AAAA):</label>
@@ -195,9 +283,7 @@
                     <option value="macchina1">Macchina1</option>
                     <option value="macchina2">Macchina2</option>
                 </select><br>
-                <label for="nomeLavoro">Nome del Lavoro:</label>
-                <textarea id="nomeLavoro" name="nomeLavoro" rows="2" cols="25" maxlength="25"></textarea><br>
-
+                <b></b>
                     <button type="submit" onclick="caricaEventi()">Aggiungi</button>   
                 </form>
                 <table id="agenda">
@@ -212,6 +298,10 @@
     </div>
     <script src="script.js"></script>
     <script>  
+        function resetPage() {
+            location.reload();
+        }
+
         function aggiungiTesto() {
         // Prevenire il comportamento di invio del modulo predefinito
         event.preventDefault();
@@ -257,6 +347,9 @@
             var cellaData = document.createElement('td');
             var cellaOra = document.createElement('td');
             var cellaTimer = document.createElement('td');
+            var cellaLavoro = document.createElement('td');
+            var textLavoro = document.createElement('textarea')
+            textLavoro.id = 'nomeLavoro';
             var cellaElimina = document.createElement('td');
             var pulsanteElimina = document.createElement('button');
 
@@ -283,6 +376,7 @@
             riga.appendChild(cellaData);
             riga.appendChild(cellaOra);
             riga.appendChild(cellaTimer);
+            cellaLavoro.appendChild(textLavoro);
             riga.appendChild(cellaElimina);
 
             agenda.appendChild(riga);
